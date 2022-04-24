@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load examen_extras %}
+{% block title %}
+Examen
+{% endblock title %}
+{% block content %}
+
+   
+    <form class="row g-3 needs-validation" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="examen_pk" value="{{examen.pk}}">
+
+        {% for pregunta in preguntas %}
+        <h4>
+            {{forloop.counter}}: {{pregunta}}<br>
+        </h4>
+            {% for respuesta in pregunta|respuestas %}
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="{{pregunta.pk}}-{{respuesta.pk}}" name="respuesta_ok_{{pregunta.pk}}"  value="{{pregunta.pk}}-{{respuesta.id}}" required>
+                <label class="form-check-label" for="{{pregunta.id}}-{{respuesta.id}}">{{forloop.counter}} - {{respuesta}} (radio-{{pregunta.id}}-{{respuesta.id}})</label>
+            </div>
+    
+         
+        {% endfor %}
+        
+        {% endfor %}
+
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </form>
+
+{% endblock content %}
