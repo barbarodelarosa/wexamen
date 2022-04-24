@@ -1,5 +1,5 @@
 from django import forms
-from .models import Examen, Pregunta, Respuesta, PreguntasRespondidas
+from .models import Examen, ExamenRespondido, Pregunta, Respuesta, PreguntasRespondidas
 
 class ElegirInlineFormset(forms.BaseInlineFormSet):
     def clean(self):
@@ -40,7 +40,7 @@ class CrearExamenForm(forms.ModelForm):
     # for_auction=forms.BooleanField(label="Producto para subasta", required=False, initial=False)
 
     class Meta:
-        model = Examen
+        model = ExamenRespondido
         fields = '__all__'
 
     # def __init__(self, *args, **kwargs):

@@ -1,17 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Examen|{{user}}</title>
-</head>
-<body>
-    <h1>Examenes, {{user}}</h1>
-    {{object_list}}
-   {% for examen in object_list %}
-        {{examen}}<br>
-        
-   {% endfor %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}
+Examenes de tránsito
+{% endblock title %}
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Exámenes /</span> Tránsito</h4>
+    <div class="card mb-4">
+        <h5 class="card-header">Lista de exámenes para tránsito</h5>
+    <div class="card-body">
+    <div class="row">
+
+    <!-- List group with Badges & Pills -->
+            <div class="col-lg-8">
+                {% comment %} <small class="text-light fw-semibold">Exámenes de tránsito</small> {% endcomment %}
+                <div class="demo-inline-spacing mt-3">
+                <ul class="list-group">
+                    {% for examen in object_list %}
+                    
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'examen:realizar-examen' examen.pk %}"> {{examen}}</a>
+                    <span class="badge bg-primary">5</span>
+                    </li>
+                            
+                    {% endfor %}
+                    {% comment %} <span class="badge bg-success">2</span>
+                    <span class="badge bg-danger rounded-pill">3</span> {% endcomment %}
+                </ul>
+                </div>
+            </div>
+    <!--/ List group with Badges & Pills -->
+    </div>
+    </div>
+    </div>
+</div>
+
+{% endblock content %}
