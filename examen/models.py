@@ -41,10 +41,12 @@ class ExamenRespondido(models.Model):
     preguntas_respondidas = models.ManyToManyField('PreguntasRespondidas', blank=True)
 
     resultado = models.DecimalField(verbose_name="Resultado de examen", default=0, decimal_places=2, max_digits=6)
+    precio = models.DecimalField(verbose_name="Precio del examen", default=0, decimal_places=2, max_digits=6)
     intentos = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
  
 
@@ -88,7 +90,8 @@ class PreguntasRespondidas(models.Model):
 class Profile(models.Model): #QuizUser
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     puntaje_total=models.DecimalField(verbose_name="Puntaje total", default=0, decimal_places=2, max_digits=2)
-
+    presupuesto=models.DecimalField(verbose_name="Presupuesto", default=0, decimal_places=2, max_digits=6)
+   
     def __str__(self):
         return self.usuario.username
 

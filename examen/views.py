@@ -1,3 +1,6 @@
+from django.utils.decorators import method_decorator
+from examen.decorator import my_decorator
+
 import random
 
 from django.http import HttpResponseRedirect
@@ -25,20 +28,23 @@ class HomeUserView(generic.TemplateView):
         }
         return context
 
-class ExamenView(generic.TemplateView):
-    template_name='user/examen_user.html'
 
-    def get_context_data(self, **kwargs):
-        super(ExamenView, self).get_context_data(**kwargs)
-        preguntas = Pregunta.objects.order_by('?')[:1] #SLECCIONA AL AZAR 20 PREGUNTAS
-        #enviar examenes del usuario
-        #enviar otros examenes
+@method_decorator(my_decorator, name='dispatch')
+class ExamenListView(generic.ListView):
+    template_name='examen_list.html'
+    model=Examen
+
+    # def get_context_data(self, **kwargs):
+    #     super(ExamenListView, self).get_context_data(**kwargs)
+    #     preguntas = Pregunta.objects.order_by('?')[:1] #SLECCIONA AL AZAR 20 PREGUNTAS
+    #     #enviar examenes del usuario
+    #     #enviar otros examenes
         
-        context={
-            'preguntas':preguntas,
+    #     context={
+    #         'preguntas':preguntas,
            
-        }
-        return context
+    #     }
+    #     return context
     
 class CreateExamenView(generic.CreateView):
     model = Examen
