@@ -11,7 +11,7 @@ from .models import Examen, ExamenRespondido, PreguntasRespondidas, Profile, Pre
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
-class HomeView(generic.TemplateView):
+class HomeView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'inicio.html'
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
@@ -24,7 +24,7 @@ def inicio(request):
     }
     return render(request, 'inicio.html', context)
 
-class HomeUserView(generic.TemplateView):
+class HomeUserView(LoginRequiredMixin, generic.TemplateView):
     template_name='user/home_user.html'
 
     def get_context_data(self, **kwargs):
@@ -37,26 +37,23 @@ class HomeUserView(generic.TemplateView):
         return context
 
 
-class ExamenListView(generic.ListView):
+class ExamenListView(LoginRequiredMixin, generic.ListView):
     template_name='examen_list.html'
     model=Examen
 
-    # def get_context_data(self, **kwargs):
-    #     super(ExamenListView, self).get_context_data(**kwargs)
-    #     preguntas = Pregunta.objects.order_by('?')[:1] #SLECCIONA AL AZAR 20 PREGUNTAS
-    #     #enviar examenes del usuario
-    #     #enviar otros examenes
-        
-    #     context={
-    #         'preguntas':preguntas,
-           
-    #     }
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super(ExamenListView, self).get_context_data(**kwargs)
+        ExamenRespondido.objects.filter(usuario=self.request.user)
+        #enviar examenes del usuario
+        #enviar otros examenes
+        context['examenes_realizados']=ExamenRespondido.objects.filter(usuario=self.request.user)
+        return context
 
 @method_decorator(my_decorator, name='dispatch')
-class CreateExamenView(generic.UpdateView):
+class CreateExamenView(LoginRequiredMixin, generic.UpdateView):
     model = Examen
     form_class=CrearExamenForm
+  
   
     template_name='user/create_examen.html'
     def get_context_data(self, **kwargs):
@@ -121,7 +118,7 @@ class CreateExamenView(generic.UpdateView):
             examen_respondido.save()
 
             i+=1
-        return HttpResponseRedirect('/examen/')
+        return HttpResponseRedirect('/examenes/')
         # post.save()
         # # or instead of two lines above, just do post = form.save()
         # return HttpResponseRedirect('/examen/2/')
@@ -198,6 +195,22 @@ def realizarExamen(request, exam_pk):
     }
   
     return render(request, 'user/create_examen.html', context)
+
+
+
+
+class PlanesView(LoginRequiredMixin, generic.TemplateView):
+    template_name='planes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PlanesView, self).get_context_data(**kwargs)
+       
+        return context
+
+
+
+
+
 
 
 class CrearExamenView(LoginRequiredMixin, generic.FormView):
@@ -279,3 +292,5 @@ class CrearExamenView(LoginRequiredMixin, generic.FormView):
         return super().form_valid(form)
 
     
+
+

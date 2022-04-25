@@ -1,3 +1,4 @@
+from perfil.models import Profile
 from django.db import models
 from django.db.models.signals import pre_save
 from django.contrib.auth.models import User
@@ -77,7 +78,7 @@ class Respuesta(models.Model):
 
 
 class PreguntasRespondidas(models.Model):
-    usuario = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Profile, on_delete=models.CASCADE)
     examen = models.ForeignKey(Examen, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
     respuesta = models.ForeignKey(Respuesta, on_delete=models.CASCADE, related_name='intentos')
@@ -85,19 +86,6 @@ class PreguntasRespondidas(models.Model):
     puntaje_obtenido = models.DecimalField(verbose_name="Puntaje obtenido", default=0, decimal_places=2, max_digits=6)
 
 
-
-
-class Profile(models.Model): #QuizUser
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    puntaje_total=models.DecimalField(verbose_name="Puntaje total", default=0, decimal_places=2, max_digits=2)
-    presupuesto=models.DecimalField(verbose_name="Presupuesto", default=0, decimal_places=2, max_digits=6)
-   
-    def __str__(self):
-        return self.usuario.username
-
-    def crear_intentos(self,pregunta):
-        intento = PreguntasRespondidas(pregunta=pregunta, usuario=self)
-        intento.save()
 
 
 

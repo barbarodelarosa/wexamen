@@ -151,6 +151,47 @@
 
 
             <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Pagos</span>
+            </li>
+             <li class="menu-item">
+              <a href="{% url 'perfil:planes' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <div data-i18n="Basic">Planes</div>
+              </a>
+            </li>
+            
+
+
+              <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Afiliado</span>
+              </li>
+
+          	{% if request.user.profile.affiliated %}
+
+              <li class="menu-item">
+                <a href="{% url 'perfil:planes' %}" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-collection"></i>
+                  <div data-i18n="Basic">Mi enlace de afiliado</div>
+                </a>
+              </li>
+            {% else %}
+               <li class="menu-item">
+                <a href="{% url 'perfil:planes' %}" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-collection"></i>
+                  <div data-i18n="Basic">Solicitar cuenta de afiliado</div>
+                </a>
+              </li>
+            {% endif %}
+
+
+
+
+
+
+
+
+
+            <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Pages</span>
             </li>
             <li class="menu-item">

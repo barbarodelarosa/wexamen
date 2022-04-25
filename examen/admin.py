@@ -2,7 +2,7 @@ from pyexpat import model
 from django.contrib import admin
 
 
-from .models import ExamenRespondido, Pregunta, Respuesta, Examen, PreguntasRespondidas, Profile
+from .models import ExamenRespondido, Pregunta, Respuesta, Examen, PreguntasRespondidas
 from .forms import ElegirInlineFormset
 
 
@@ -28,7 +28,6 @@ class PreguntasRespondidasAdmin(admin.ModelAdmin):
         model=PreguntasRespondidas
 
 
-admin.site.register(Profile)
 admin.site.register(Examen)
 admin.site.register(Pregunta, PreguntaAdmin)
 admin.site.register(Respuesta)

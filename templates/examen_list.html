@@ -10,25 +10,85 @@ Examenes de tránsito
     <div class="card-body">
     <div class="row">
 
-    <!-- List group with Badges & Pills -->
-            <div class="col-lg-8">
-                {% comment %} <small class="text-light fw-semibold">Exámenes de tránsito</small> {% endcomment %}
-                <div class="demo-inline-spacing mt-3">
-                <ul class="list-group">
-                    {% for examen in object_list %}
-                    
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="{% url 'examen:realizar-examen' examen.pk %}"> {{examen}}</a>
-                    <span class="badge bg-primary">5</span>
-                    </li>
-                            
-                    {% endfor %}
-                    {% comment %} <span class="badge bg-success">2</span>
-                    <span class="badge bg-danger rounded-pill">3</span> {% endcomment %}
-                </ul>
-                </div>
-            </div>
-    <!--/ List group with Badges & Pills -->
+
+
+<div class="nav-align-top mb-4">
+                    <ul class="nav nav-tabs nav-fill" role="tablist">
+                      <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link active"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-justified-home"
+                          aria-controls="navs-justified-home"
+                          aria-selected="true"
+                        >
+                          <i class="tf-icons bx bx-home"></i>Todos los exámenes
+                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-primary">{{object_list.count}}</span>
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-justified-profile"
+                          aria-controls="navs-justified-profile"
+                          aria-selected="false"
+                        >
+                          <i class="tf-icons bx bx-user"></i> Examenes realizados
+                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-primary">{{examenes_realizados.count}}</span>
+
+                        </button>
+                      </li>
+                     
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+
+                            <div class="demo-inline-spacing mt-3">
+                            <ul class="list-group">
+                                {% for examen in object_list %}
+                                
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'examen:realizar-examen' examen.pk %}"> {{examen}}</a>
+                                    <span class="badge bg-primary">{{examen.resultado}}</span>
+                                   
+                                </li>
+                                        
+                                {% endfor %}
+                                {% comment %} <span class="badge bg-success">2</span>
+                                <span class="badge bg-danger rounded-pill">3</span> {% endcomment %}
+                            </ul>
+                            </div>
+                 
+
+
+
+                      </div>
+                      <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                        
+                                {% for examen in examenes_realizados %}
+
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'examen:realizar-examen' examen.pk %}"> {{examen}}</a>
+                                    <span class="badge bg-primary">{{examen.resultado}}</span>
+                                </li>
+                                {%endfor%}
+                      </div>
+                 
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
     </div>
     </div>
     </div>

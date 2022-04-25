@@ -32,15 +32,15 @@ Examen
         {% for pregunta in preguntas %}
             <h5 class="card-header">{{forloop.counter}}: {{pregunta}}</h5>
 
+            <small class="text-light fw-semibold">Respuestas</small>
             {% for respuesta in pregunta|respuestas %}
             
                       <div class="row gy-3">
-                                {% comment %} <div class="form-check">
+                            <div class="form-check">
                                 <input type="radio" class="form-check-input" id="{{pregunta.pk}}-{{respuesta.pk}}" name="respuesta_ok_{{pregunta.pk}}"  value="{{pregunta.pk}}-{{respuesta.id}}" required>
                                 <label class="form-check-label" for="{{pregunta.id}}-{{respuesta.id}}">{{forloop.counter}} - {{respuesta}} (radio-{{pregunta.id}}-{{respuesta.id}})</label>
-                            </div> {% endcomment %}
-                            <div class="col-md">
-                                <small class="text-light fw-semibold">Respuesta-{{forloop.counter}}</small>
+                            </div> 
+                            {% comment %} <div class="col-md">
                                 <div class="form-check mt-3">
                                     <input
                                     id="{{pregunta.pk}}-{{respuesta.pk}}"
@@ -52,7 +52,7 @@ Examen
                                     />
                                     <label class="form-check-label" or="{{pregunta.id}}-{{respuesta.id}}"> {{respuesta}} </label>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                             {% comment %} <div class="form-check">
                                 <input type="radio" class="form-check-input" id="{{pregunta.pk}}-{{respuesta.pk}}" name="respuesta_ok_{{pregunta.pk}}"  value="{{pregunta.pk}}-{{respuesta.id}}" required>
                                 <label class="form-check-label" for="{{pregunta.id}}-{{respuesta.id}}">{{forloop.counter}} - {{respuesta}} (radio-{{pregunta.id}}-{{respuesta.id}})</label>
@@ -61,7 +61,7 @@ Examen
                     </div>
        
             {% endfor %}
-            {% comment %} <hr class="m-0" /> {% endcomment %}
+            <hr class="m-0" />
 
             {% comment %} </div> {% endcomment %}
         {% endfor %}

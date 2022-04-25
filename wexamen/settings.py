@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+import environ
+import os
+
+
+env = environ.Env()
+
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +28,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g0*+m3c*=_#=k#l+^3or%gnda2#5nupi$bej9zrs#d7)i8hi_3'
+# SECRET_KEY = 'django-insecure-g0*+m3c*=_#=k#l+^3or%gnda2#5nupi$bej9zrs#d7)i8hi_3'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = env('DEBUG')
+
+#KEY_ACCESS_TOKEN Llave de acceso para enzona
+KEY_ACCESS_TOKEN=env('KEY_ACCESS_TOKEN')
+URL_API_ENZONA=env('URL_API_ENZONA')
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +55,8 @@ INSTALLED_APPS = [
 #MY APPS
 INSTALLED_APPS += [
     'examen',
+    'perfil',
+    'affiliate',
 ]
 # OTRAS APPS
 INSTALLED_APPS += [

@@ -1,0 +1,12 @@
+
+
+			{% if request.user.profile.affiliated %}
+							
+                <form action="{% url 'affiliate:shortener'%}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="long_url" value="{{product.get_absolute_url}}">
+                    <input type="hidden" name="product_id" value="{{product.id}}">
+                    <button type="submit" class="btn btn-success">Referir producto <i class="fa fa-share"></i></button>
+                </form>
+
+            {% endif %}

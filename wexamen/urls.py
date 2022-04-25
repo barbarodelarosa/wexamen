@@ -16,14 +16,18 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-
+from affiliate.views import redirect_url_view
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('examen.urls', namespace='examen')),
+    path('perfil/', include('perfil.urls', namespace='perfil')),
     path('accounts/', include('allauth.urls')),
+    path('afiliado/', include('affiliate.urls')),
+
+    path('u/<str:shortened_part>', redirect_url_view, name='redirect-url-short'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
