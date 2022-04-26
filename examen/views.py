@@ -1,5 +1,5 @@
-from django.utils.decorators import method_decorator
 from examen.decorator import my_decorator
+from django.utils.decorators import method_decorator
 
 import random
 
@@ -10,19 +10,6 @@ from django.views import generic
 from .models import Examen, ExamenRespondido, PreguntasRespondidas, Profile, Pregunta, Respuesta
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
-
-class HomeView(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'inicio.html'
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
-        context['bienvenido']="HOLA INICIO"
-        return context
-
-def inicio(request):
-    context={
-        'bienvenido':'Hola inicio'
-    }
-    return render(request, 'inicio.html', context)
 
 class HomeUserView(LoginRequiredMixin, generic.TemplateView):
     template_name='user/home_user.html'

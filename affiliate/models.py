@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from perfil.models import Plan
+# from perfil.models import Plan
 
 # Import the function used to create random codes
 from .utils import create_shortened_url
@@ -21,7 +21,7 @@ class Shortener(models.Model):
     ''' 
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, blank=True, null=True)
+    # plan = models.ForeignKey(Plan, on_delete=models.CASCADE, blank=True, null=True)
     times_followed = models.PositiveIntegerField(default=0)    
     # long_url = models.URLField()
     long_url = models.CharField(max_length=50, blank=True)

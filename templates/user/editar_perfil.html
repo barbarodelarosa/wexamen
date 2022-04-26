@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load examen_extras %}
+{% block title %}
+Examen
+{% endblock title %}
+{% block content %}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Exámenes / Tránsito / </span>Exámen {{object.pk}} </h4>
+<div class="card mb-4">
+<h5 class="card-header">Exámen {{object.pk}}</h5>
+
+
+<div class="card-body">
+<div class="row">
+<div class="col-xl-12">
+   
+    
+
+
+
+    <form class="row g-3 needs-validation" method="post">
+        {% csrf_token %}
+    
+      {{form.as_p}}
+
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </form>
+
+
+
+
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+{% endblock content %}

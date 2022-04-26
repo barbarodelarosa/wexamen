@@ -1,8 +1,8 @@
 from decimal import Decimal
 from django.contrib import messages
-from django.http import HttpResponse
-from perfil.models import Plan, PlanPago, Profile
-from perfil.forms import PagarPlanForm
+from django.http import HttpResponse, HttpResponseRedirect
+from perfil.models import AffiliateApplication, Plan, PlanPago, Profile
+from perfil.forms import AffiliateApplicationForm, PagarPlanForm
 from perfil import enzona
 from django.shortcuts import redirect, render
 from django.views import generic
@@ -10,7 +10,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
-
+class HomeView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'inicio.html'
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        context['bienvenido']="HOLA INICIO"
+        return context
 
 
 def pagarPlan(request):
@@ -266,3 +271,53 @@ class PagarPlanView(LoginRequiredMixin, generic.TemplateView):
 
         # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("shop:thank-you"))
         return context
+
+
+
+
+def affiliateApplication(request):
+    profile = Profile.objects.get(usuario=request.user)
+    if profile.phone and profile.ci:
+        form = AffiliateApplicationForm(request.POST or None)
+        if request.method == 'POST' and form.is_valid():
+            AffiliateApplication.objects.create(profile=profile)
+            messages.info(request, "Su solicitud de cuenta de afiliado fue enviada, debe esperar a ser aprovada")
+            return HttpResponseRedirect('/')
+        else:
+            messages.info(request, "Error al enviar la solicitud, por favor revisar los requisitos")
+            return HttpResponseRedirect('/')
+    else:
+        messages.error(request, "Antes de solicitar la cuenta de afilidado, debe editar su perfil y agregar su numero de telefono y CI")
+        return HttpResponseRedirect('/')
+
+
+
+
+def referedCode(request, *args, **kwargs):
+
+	code = str(kwargs.get('ref_code'))
+	next_url = str(request.GET.get('next_url'))
+
+	try:
+		profile = Profile.objects.get(code=code)
+		
+		request.session['ref_profile']=profile.id
+
+	except:
+		pass
+	
+	url = request.build_absolute_uri()
+	# print("URL REFER")
+	print(next_url)
+	return HttpResponseRedirect(next_url)
+
+
+class EditarPerfilView(generic.UpdateView):
+    model=Profile
+    fields = ['profile_info','phone','ci','gender','picture','banner',]
+    template_name='user/editar_perfil.html'
+
+class DetallePerfilView(generic.DetailView):
+    model=Profile
+    
+    template_name='user/detalle_perfil.html'

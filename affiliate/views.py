@@ -3,9 +3,18 @@ from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from affiliate.models import Shortener
 from django.shortcuts import render
+from django.views import generic
+
 
 # Create your views here.
 
+class AffiliateLinks(generic.TemplateView):
+    template_name='affiliate/links.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AffiliateLinks,self).get_context_data(**kwargs)
+        context['links']=Shortener.objects.filter(user=self.request.user)
+        return context
 
 def affiliateLinks(request):
     context ={
@@ -25,14 +34,14 @@ def shortener(request):
         if form.is_valid():
             shortener = form.save(commit=False)
             long_url = request.POST.get('long_url')
-            product_id = request.POST.get('product_id')
-            product = Product.objects.get(id=product_id)
+            # product_id = request.POST.get('product_id')
+            # product = Product.objects.get(id=product_id)
    
-            new_long_url = f'profile-user/ref-code/{user.profile.code}/?next_url={long_url}'
+            new_long_url = f'ref-code/{user.profile.code}/?next_url={long_url}'
     
             shortener.long_url = new_long_url
             shortener.user = user
-            shortener.product = product
+            # shortener.product = product
             shortener.save()
             return HttpResponseRedirect(reverse('affiliate:links'))
         else:
@@ -61,3 +70,5 @@ def redirect_url_view(request, shortened_part):
         
     except:
         raise Http404('Lo sentimos, enlace roto :(')
+
+
