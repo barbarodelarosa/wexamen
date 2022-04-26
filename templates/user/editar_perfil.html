@@ -7,19 +7,205 @@ Examen
 
 <div class="container-xxl flex-grow-1 container-p-y">
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Exámenes / Tránsito / </span>Exámen {{object.pk}} </h4>
-<div class="card mb-4">
-<h5 class="card-header">Exámen {{object.pk}}</h5>
+                  <div class="card mb-4">
+                    <h5 class="card-header">Perfil, Detalles</h5>
+                    <!-- Account -->
+
+                    <form id="actualizar_perfil" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                            <img
+                            {% if request.user.profile.picture %}
+                                src="{{request.user.profile.picture.url}}"
+                            {% else %}
+                                src="no-image"
+                            {% endif %}
+                            alt="user-avatar"
+                            class="d-block rounded"
+                            height="100"
+                            width="100"
+                            id="uploadedAvatar"
+                            />
+                            <div class="button-wrapper">
+                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                <span class="d-none d-sm-block">Subir nueva foto</span>
+                                <i class="bx bx-upload d-block d-sm-none"></i>
+                            </label>
+                                <input
+                                name="picture"
+                                type="file"
+                                
+                                id="upload"
+                                class="account-file-input"
+                                hidden
+                                accept="image/png, image/jpeg"
+                                />
+                            {% comment %} <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                                <i class="bx bx-reset d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Reset</span>
+                            </button> {% endcomment %}
+
+                            <p class="text-muted mb-0">Permitido JPG ó PNG. Max 1MB</p>
+                            </div>
+                        </div>
 
 
-<div class="card-body">
-<div class="row">
-<div class="col-xl-12">
-   
-    
+
+                        
+                    </div>
 
 
 
-    <form class="row g-3 needs-validation" method="post">
+
+                    <hr class="my-0" />
+                    <div class="card-body">
+                    
+                        <div class="row">
+                          <div class="mb-3 col-md-6">
+                            <label for="firstName" class="form-label">Nombres</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="firstName"
+                              name="first_name"
+                              {% if form.first_name.value %}
+                                value={{form.first_name.value}}
+                              {% else %}
+                                value=""
+                              {% endif %}
+                              autofocus
+                            />
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="lastName" class="form-label">Apellidos</label>
+                            <input class="form-control"
+                                type="text" 
+                                name="last_name" 
+                                id="lastName" 
+                                {% if form.last_name.value %}
+                                    value={{form.last_name.value}}
+                                {% else %}
+                                    value=""
+                                {% endif %} 
+                                />
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="email" class="form-label">Correo</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="email"
+                              name="email"
+                              value={{request.user.email}}
+                              readonly
+                            />
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="organization" class="form-label">Número de identidad</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="organization"
+                              {% if form.ci.value %}
+                                    value={{form.ci.value}}
+                              {% else %}
+                                    value=""
+                              {% endif %} 
+                              name="ci"
+                            />
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label class="form-label" for="phoneNumber">Número de teléfono</label>
+                            <div class="input-group input-group-merge">
+                              <span class="input-group-text">CU (+53)</span>
+                              <input
+                                type="text"
+                                id="phoneNumber"
+                                name="phone"
+                                class="form-control"
+                                placeholder="54063095"
+                                {% if form.phone.value %}
+                                    value={{form.phone.value}}
+                                {% else %}
+                                        value=""
+                                {% endif %}
+                              />
+                            </div>
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="exampleFormControlTextarea1" class="form-label">Acerca de ti</label>
+                            <textarea 
+                                class="form-control" 
+                                id="exampleFormControlTextarea1"  
+                                rows="3"
+                                name="profile_info"
+                                {% if form.profile_info.value  %}
+                                    value="{{form.profile_info.value}}"
+                                {% else %}
+                                    value=""
+                                {% endif %}
+                                ></textarea>
+
+                          </div>
+     
+                          <div class="mb-3 col-md-6">
+                            <label for="currency" class="form-label">Sexo</label>
+                            {% comment %} <select id="currency" class="select2 form-select">
+                            {% if request.user.profile.gender %}
+                                <option value="{{request.user.profile.gender}}">{{request.user.profile.gender}}</option>
+                                {% for opt in form.gender  %}
+                                <option value="{{opt}}">{{opt}}</option>                                    
+                                {% endfor %}                            
+                            {% else %}
+                                <option value="">Seleccionar sexo</option>
+                            {% endif %} {% endcomment %}
+
+
+                            {% comment %} ESTE ES UN EROR INTENCIONADO DEBIDO A QUE EL FORM.GENDER VIENE CON COSAS DE MAS {% endcomment %}
+                            <select id="currency" name="gender" class="select2 form-select">
+                                <option value="{{form.gender}}</option>
+                                                           
+                            </select>
+                            {% comment %} ESTE ES UN EROR INTENCIONADO DEBIDO A QUE EL FORM.GENDER VIENE CON COSAS DE MAS {% endcomment %}
+
+                          </div>
+                        </div>
+                        <div class="mt-2">
+                          <button type="submit" class="btn btn-primary me-2">Salvar cambios</button>
+                          <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                        </div>
+                      </form>
+                    </div>
+                    <!-- /Account -->
+                  </div>
+                  <div class="card">
+                    <h5 class="card-header">Delete Account</h5>
+                    <div class="card-body">
+                      <div class="mb-3 col-12 mb-0">
+                        <div class="alert alert-warning">
+                          <h6 class="alert-heading fw-bold mb-1">Are you sure you want to delete your account?</h6>
+                          <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
+                        </div>
+                      </div>
+                      <form id="formAccountDeactivation" onsubmit="return false">
+                        <div class="form-check mb-3">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="accountActivation"
+                            id="accountActivation"
+                          />
+                          <label class="form-check-label" for="accountActivation"
+                            >I confirm my account deactivation</label
+                          >
+                        </div>
+                        <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
+                      </form>
+                    </div>
+
+
+     <form class="row g-3 needs-validation" method="post">
         {% csrf_token %}
     
       {{form.as_p}}
@@ -27,7 +213,7 @@ Examen
         <div class="mb-3">
             <button class="btn btn-primary" type="submit">Enviar</button>
         </div>
-    </form>
+    </form> 
 
 
 
@@ -35,11 +221,5 @@ Examen
 
 
 </div>
-</div>
-</div>
-</div>
-</div>
-
-
 
 {% endblock content %}

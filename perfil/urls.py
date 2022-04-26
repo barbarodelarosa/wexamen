@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import ConfirmarPagoView, DetallePerfilView, DetallesPagoView, EditarPerfilView, GraciasView, ListaPagosView, PlanesView,HomeView, affiliateApplication, pagarPlan, referedCode
+from .views import ConfirmarPagoView, DetallePerfilView, DetallesPagoView, EditarPerfilView, GraciasView, ListaPagosView, PlanesView,HomeView, affiliateApplication, initPerfil, pagarPlan, referedCode
 app_name='perfil'
 
 urlpatterns=[
     path('',HomeView.as_view(), name='home'),
+    path('init/',initPerfil, name='init'),
     path('planes/',PlanesView.as_view(), name='planes'),
     path('editar-perfil/<pk>/',EditarPerfilView.as_view(), name='editar-perfil'),
     path('detalle-perfil/<pk>/',DetallePerfilView.as_view(), name='detalle-perfil'),

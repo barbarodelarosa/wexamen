@@ -130,6 +130,7 @@ class Plan(models.Model):
     caracteristica5 = models.CharField(max_length=50, blank=True, null=True)
     description=models.TextField()
     price=models.DecimalField(verbose_name="Precio", max_digits=6, default=0, decimal_places=2)
+    credit = models.DecimalField(verbose_name="Creditos del plan", max_digits=6, default=0, decimal_places=2)
 
 
     def __str__(self):
@@ -148,6 +149,8 @@ class PlanPago(models.Model):
     purchused=models.BooleanField(default=False)
     created=models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(verbose_name="Cantidad pagada", max_digits=6, default=0, decimal_places=2)
+    credit = models.DecimalField(verbose_name="Credito adquirido", max_digits=6, default=0, decimal_places=2)
+    
     # info de enzona
    
     transaction_uuid=models.CharField(max_length=35)

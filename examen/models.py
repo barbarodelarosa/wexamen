@@ -21,11 +21,13 @@ class Etiqueta(models.Model):
 
 class Examen(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, blank=True, null=True)
+    
     #Cuando se crea el examen este selecciona 20 preguntas aleatorias y las agrega a preguntas
     preguntas = models.ManyToManyField('Pregunta', related_name='preguntas_examen', blank=True)
     # Cunado va a guardarse el examen este crea instancias de preguntas respondidas las cuales se guardan con el ID al exaqmen de las preguntas que fueron seleccionadas
     # preguntas_respondidas = models.ManyToManyField('PreguntasRespondidas', blank=True)
-    precio = models.DecimalField(verbose_name="Precio del examen", default=0, decimal_places=2, max_digits=6)
+    costo = models.DecimalField(verbose_name="Costo del examen", default=0, decimal_places=2, max_digits=6)
 
     resultado = models.DecimalField(verbose_name="Resultado de examen", default=0, decimal_places=2, max_digits=6)
     intentos = models.IntegerField(default=0)
@@ -41,7 +43,8 @@ class ExamenRespondido(models.Model):
     # Cunado va a guardarse el examen este crea instancias de preguntas respondidas las cuales se guardan con el ID al exaqmen de las preguntas que fueron seleccionadas
     examen = models.ForeignKey(Examen, on_delete=models.CASCADE)
     preguntas_respondidas = models.ManyToManyField('PreguntasRespondidas', blank=True)
-
+    
+    costo = models.DecimalField(verbose_name="Costo del examen", default=0, decimal_places=2, max_digits=6, blank=True, null=True)
     resultado = models.DecimalField(verbose_name="Resultado de examen", default=0, decimal_places=2, max_digits=6, blank=True, null=True)
     intentos = models.IntegerField(default=0, null=True, blank=True)
 

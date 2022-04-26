@@ -14,16 +14,41 @@ Examen
 <div class="card-body">
 <div class="row">
 <div class="col-xl-12">
-   
-    
-
-{% for pago in object_list %}
-    <a href="{% url 'perfil:detalles-pago' pago.pk %}">
-        {{pago}}
-    </a><br>
-{% endfor %}
 
 
+
+            <div class="card">
+           
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Plan</th>
+                        <th>Costo del plan</th>
+                        <th>Fecha de pago</th>
+                        <th>Monto pagado</th>
+                        <th>Creditos adquiridos</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    {% for pago in object_list %}
+                      <tr>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{forloop.counter}}</strong></td>
+                        <td><a href="{% url 'perfil:planes'%}">{{pago.plan}}</a></td>
+                        <td>{{pago.plan.price}}</td>
+                        <td><span class="badge bg-label-primary me-1">{{pago.created}}</span></td>
+                        <td>{{pago.amount}}</td>
+                        <td>{{pago.credit}}</td>
+                      </tr>
+                    {% endfor %}
+                      
+                      
+                      
+                    </tbody>
+                  </table>
+                </div>
+            </div>
 
 
 

@@ -28,6 +28,8 @@ urlpatterns = [
     path('affiliate/', include('affiliate.urls')),
 
     path('u/<str:shortened_part>', redirect_url_view, name='redirect-url-short'),
+
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

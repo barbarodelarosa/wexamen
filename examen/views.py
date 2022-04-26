@@ -1,3 +1,4 @@
+from django.urls import reverse
 from examen.decorator import my_decorator
 from django.utils.decorators import method_decorator
 
@@ -33,7 +34,7 @@ class ExamenListView(LoginRequiredMixin, generic.ListView):
         ExamenRespondido.objects.filter(usuario=self.request.user)
         #enviar examenes del usuario
         #enviar otros examenes
-        context['examenes_realizados']=ExamenRespondido.objects.filter(usuario=self.request.user)
+        context['examenes_realizados']=ExamenRespondido.objects.filter(usuario=self.request.user)        
         return context
 
 @method_decorator(my_decorator, name='dispatch')
@@ -98,14 +99,14 @@ class CreateExamenView(LoginRequiredMixin, generic.UpdateView):
             created.save()
             examen_respondido.preguntas_respondidas.add(created)
             examen_respondido.resultado += puntaje_obtenido
-            user.profile.presupuesto = user.profile.presupuesto - examen.precio
+            user.profile.presupuesto = user.profile.presupuesto - examen.costo
             if user.profile.presupuesto <= 0:
                 user.profile.presupuesto = 0
             user.profile.save()
             examen_respondido.save()
 
             i+=1
-        return HttpResponseRedirect('/examenes/')
+        return HttpResponseRedirect(reverse('examen:examenes'))
         # post.save()
         # # or instead of two lines above, just do post = form.save()
         # return HttpResponseRedirect('/examen/2/')

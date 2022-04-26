@@ -64,6 +64,7 @@ INSTALLED_APPS += [
     'allauth.account',
     'allauth.socialaccount',
 
+
 ]
 
 MIDDLEWARE = [
@@ -167,7 +168,14 @@ AUTHENTICATION_BACKENDS = [
 
 ]
 
-LOGIN_REDIRECT_URL='home'
+SITE_ID = 1
+ACCOUNT_AUTHENTICATON_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
+LOGIN_REDIRECT_URL='perfil:init'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 import os

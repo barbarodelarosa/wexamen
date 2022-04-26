@@ -12,6 +12,11 @@ Examenes de tránsito
 
 
 
+
+    
+
+
+
 <div class="nav-align-top mb-4">
                     <ul class="nav nav-tabs nav-fill" role="tablist">
                       <li class="nav-item">
@@ -50,15 +55,47 @@ Examenes de tránsito
 
                             <div class="demo-inline-spacing mt-3">
                             <ul class="list-group">
-                                {% for examen in object_list %}
-                                
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{% url 'examen:realizar-examen' examen.pk %}"> {{examen}}</a>
-                                    <span class="badge bg-primary">{{examen.resultado}}</span>
-                                   
-                                </li>
-                                        
-                                {% endfor %}
+
+
+              <div class="card">
+           
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Examen</th>
+                        <th>Categoría</th>
+                        <th>Total de preguntas</th>
+                        <th>Creditos</th>
+
+                        
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    {% for obj in object_list %}
+                      <tr>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{forloop.counter}}</strong></td>
+                        <td><a href="{% url 'examen:realizar-examen' obj.pk %}">Examen - {{obj.pk}}</a></td>
+                        {% if obj.categoria %}
+                          <td>{{obj.categoria}}</td>
+                        {% else %}
+                          <td>Sin categoría</td>
+                        {% endif %}
+                        <td>{{obj.preguntas.count}}</td>
+                        <td><span class="badge bg-success">{{obj.costo}}</span></td>
+                        
+                      </tr>
+                    {% endfor %}
+                      
+                      
+                      
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+
+                        
                                 {% comment %} <span class="badge bg-success">2</span>
                                 <span class="badge bg-danger rounded-pill">3</span> {% endcomment %}
                             </ul>
@@ -70,22 +107,69 @@ Examenes de tránsito
                       </div>
                       <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                         
-                                {% for examen in examenes_realizados %}
 
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{% url 'examen:realizar-examen' examen.pk %}"> {{examen}}</a>
-                                    <span class="badge bg-primary">{{examen.resultado}}</span>
-                                </li>
-                                {%endfor%}
+
+
+
+
+
+
+
+
+
+                        <div class="card">
+           
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Examen</th>
+                        <th>Categoría</th>
+                        <th>Fecha</th>
+                        <th>Total de preguntas</th>
+                        <th>Creditos</th>
+                        <th>Resultado</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                   {% for examen in examenes_realizados %}
+                      <tr>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{forloop.counter}}</strong></td>
+                        {% comment %} <td><a href="{% url 'examen:realizar-examen' examen.pk %}">Examen - {{examen.pk}}</a></td> {% endcomment %}
+                        {% comment %} Aqui va un enlace al detalle del examen realido {% endcomment %}
+                        <td><a href="#">Examen - {{examen.pk}}</a></td>
+                        {% if examen.categoria %}
+                          <td>{{examen.categoria}}</td>
+                        {% else %}
+                          <td>Sin categoría</td>
+                        {% endif %}
+                        
+                        <td>{{examen.created_at}}</td>
+
+                        <td>{{examen.preguntas_respondidas.count}}</td>
+                        <td>{{examen.costo}}</td>
+                        <td><span class="badge bg-primary">{{examen.resultado}} pts</span></td>
+                        
+                      </tr>
+                    {% endfor %} 
+                      
+                      
+                      
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+
+
+
+
+
                       </div>
                  
                     </div>
                   </div>
-
-
-
-
-
 
 
 

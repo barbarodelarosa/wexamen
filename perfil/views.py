@@ -17,7 +17,18 @@ class HomeView(LoginRequiredMixin, generic.TemplateView):
         context['bienvenido']="HOLA INICIO"
         return context
 
+def initPerfil(request):
+    try:
+        profile = Profile.objects.create(usuario=request.user)
+        messages.success(request, "Perfil de usuario registrado")
+    except:
+        pass
+    return HttpResponseRedirect('/')
 
+
+
+
+#*************************************************************
 def pagarPlan(request):
     context={}
    
@@ -70,7 +81,7 @@ def pagarPlan(request):
             amount=amount,
             items=items,
             cancel_url=f'http://{request.get_host()}/', #OK
-            return_url=f'http://{request.get_host()}/perfil/confirmar-pago/' #OK
+            return_url=f'http://{request.get_host()}/confirmar-pago/' #OK
             )
         print("resp_enzona.json()")
         print(resp_enzona.json())
@@ -97,7 +108,7 @@ def pagarPlan(request):
             context['resp_enzona'] = resp_enzona.json()
     return HttpResponse('Pagado')
 
-
+#*********************************************************************************************
 
 
 
@@ -149,6 +160,7 @@ class ConfirmarPagoView(LoginRequiredMixin, generic.View): #Confirma el pago rea
             purchused=True,
             transaction_uuid=transaction_uuid,
             user_uuid=user_uuid,
+            credit=plan.credit,
         )
         profile.presupuesto+=Decimal(float(amount))
         profile.save()
@@ -314,7 +326,7 @@ def referedCode(request, *args, **kwargs):
 
 class EditarPerfilView(generic.UpdateView):
     model=Profile
-    fields = ['profile_info','phone','ci','gender','picture','banner',]
+    fields = ['profile_info','phone','ci','gender','picture','first_name','last_name']
     template_name='user/editar_perfil.html'
 
 class DetallePerfilView(generic.DetailView):
