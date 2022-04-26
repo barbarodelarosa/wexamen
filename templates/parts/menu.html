@@ -128,16 +128,24 @@
 
 
 
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Exámenes</span>
+            </li>
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Examenes</div>
+                <div data-i18n="Layouts">Tránsito</div>
               </a>
 
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="{% url 'examen:examenes' %}" class="menu-link">
-                    <div data-i18n="Without menu">Transito</div>
+                    <div data-i18n="Without menu">Exámenes</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'examen:examenes' %}" class="menu-link">
+                    <div data-i18n="Without menu">Resultados</div>
                   </a>
                 </li>
                
@@ -454,7 +462,7 @@
               </a>
             </li>
             <!-- Misc -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">VARIOS</span></li>
             <li class="menu-item">
               <a
                 href="https://github.com/themeselection/sneat-html-admin-template-free/issues"

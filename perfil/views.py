@@ -318,6 +318,30 @@ class EditarPerfilView(generic.UpdateView):
     template_name='user/editar_perfil.html'
 
 class DetallePerfilView(generic.DetailView):
-    model=Profile
+    # model=Profile
+    queryset=Profile.objects.all()
     
     template_name='user/detalle_perfil.html'
+	#****************************************************************************************************
+	# La funcion establece que si el usuario no es el propietario da error 404 (no encuentra la pagina) #
+	#****************************************************************************************************
+
+    def get_queryset(self):
+         queryset = super(DetallePerfilView, self).get_queryset()
+         return queryset.filter(usuario=self.request.user)
+
+class ListaPagosView(generic.ListView):
+    queryset=PlanPago.objects.all()
+    template_name='user/lista_de_pagos.html'
+
+    def get_queryset(self):
+         queryset = super(ListaPagosView, self).get_queryset()
+         return queryset.filter(profile=self.request.user.profile)
+
+class DetallesPagoView(generic.DetailView):
+    template_name='user/detalles_pago.html'
+    queryset=PlanPago.objects.all()
+
+    def get_queryset(self):
+         queryset = super(DetallesPagoView, self).get_queryset()
+         return queryset.filter(profile=self.request.user.profile)

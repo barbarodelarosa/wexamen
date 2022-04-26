@@ -52,7 +52,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="{% url 'perfil:detalle-perfil' request.user.profile.pk %}">
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
@@ -64,8 +64,14 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block">
+                            {% if not request.user.profile.first_name or request.user.profile.last_name %}
+                              {{request.user.username }}
+                            {% else %}
+                              {{ request.user.profile.first_name }} {{ request.user.profile.last_name }}
+                            {% endif %}
+                            </span>
+                            {% comment %} <small class="text-muted">Admin</small> {% endcomment %}
                           </div>
                         </div>
                       </a>
@@ -74,23 +80,31 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="{% url 'perfil:detalle-perfil' request.user.profile.pk %}">
                         <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">Mi perfil</span>
+                        <span class="align-middle">Mi cuenta</span>
                       </a>
                     </li>
-                    <li>
+                    {% comment %} <li>
                       <a class="dropdown-item" href="#">
                         <i class="bx bx-cog me-2"></i>
                         <span class="align-middle">Settings</span>
                       </a>
+                    </li> {% endcomment %}
+                    <li>
+                      <a class="dropdown-item" href="{% url 'perfil:editar-perfil' request.user.profile.pk %}">
+                        <i class="bx bx-cog me-2"></i>
+                        <span class="align-middle">Editar cuenta</span>
+                      </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="{%url 'perfil:lista-pagos' request.user.profile.pk %}">
                         <span class="d-flex align-items-center align-middle">
                           <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                          <span class="flex-grow-1 align-middle">Pagos</span>
+                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">
+                            {{request.user.profile.planpago_set.count }}
+                          </span>
                         </span>
                       </a>
                     </li>

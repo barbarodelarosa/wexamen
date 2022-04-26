@@ -51,6 +51,8 @@ class Profile(models.Model): #QuizUser
 
     )
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(verbose_name="Nombres", max_length=25, blank=True, null=True)
+    last_name = models.CharField(verbose_name="Apellidos", max_length=25, blank=True, null=True)
     puntaje_total=models.DecimalField(verbose_name="Puntaje total", default=0, decimal_places=2, max_digits=6)
     presupuesto=models.DecimalField(verbose_name="Presupuesto", default=0, decimal_places=2, max_digits=6)
    
