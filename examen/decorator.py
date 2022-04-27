@@ -11,7 +11,7 @@ def my_decorator(func):
         # print ('Solicitar ruta% s'% request.path)
         profile = Profile.objects.get(usuario=request.user)
         examen = Examen.objects.get(pk=kwargs['pk'])
-        if profile.presupuesto >= examen.precio:
+        if profile.presupuesto >= examen.costo:
             print("EL USUARIO TIEN PRESUPUESTO")
         else:
             print("EL USUARIO NOOO TIEN PRESUPUESTO")

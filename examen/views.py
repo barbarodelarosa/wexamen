@@ -91,11 +91,15 @@ class CreateExamenView(LoginRequiredMixin, generic.UpdateView):
             created = PreguntasRespondidas.objects.create(
                 usuario=user.profile,
                 examen=examen,
+                examen_respondido=examen_respondido,
                 pregunta=pregunta_respondida,
                 respuesta=respuesta_seleccionada,
                 correcta=respuesta_seleccionada.correcta,
                 puntaje_obtenido=puntaje_obtenido,
             )
+            opciones =  Respuesta.objects.filter(pregunta=pregunta_respondida)
+            for opt in opciones:
+                created.opciones.add(opt.pk)
             created.save()
             examen_respondido.preguntas_respondidas.add(created)
             examen_respondido.resultado += puntaje_obtenido
@@ -115,78 +119,6 @@ class CreateExamenView(LoginRequiredMixin, generic.UpdateView):
    
 
 
-
-@method_decorator(my_decorator, name='realizarExamen')
-def realizarExamen(request, exam_pk):
-    user=request.user
-    if request.method=="POST":
-        print("EL metodo es post")
-        form = CrearExamenForm(request.POST)
-        if form.is_valid:
-            # pregunta = form.cleaned_data['respuesta_ok_1']
-            examen_pk=request.POST.get('examen_pk')
-            examen = Examen.objects.get(pk=examen_pk)
-            contar_preguntas=examen.preguntas.count()
-            
-
-            puntaje_final=0
-            examen_respondido = ExamenRespondido.objects.create(
-                usuario=user,
-                examen=examen
-            )
-            i=1
-            while i <= contar_preguntas:
-                puntaje_obtenido=0
-                # Funcion para todo el proceso de la respuest N
-                respuesta=request.POST.get(f'respuesta_ok_{i}')
-                # la respuesta viene con el id de la progunta y el id de las respuesta
-                respuesta_split=respuesta.split("-")
-                pregunta_pk = respuesta_split[0] 
-                respuesta_pk = respuesta_split[1]
-
-                pregunta_respondida = Pregunta.objects.get(pk=pregunta_pk)
-                respuesta_seleccionada = Respuesta.objects.get(pk=respuesta_pk)
-                if respuesta_seleccionada.correcta == True:
-                    puntaje_obtenido = pregunta_respondida.max_puntaje
-                created = PreguntasRespondidas.objects.create(
-                    usuario=user.profile,
-                    examen=examen,
-                    pregunta=pregunta_respondida,
-                    respuesta=respuesta_seleccionada,
-                    correcta=respuesta_seleccionada.correcta,
-                    puntaje_obtenido=puntaje_obtenido,
-                )
-                created.save()
-                examen_respondido.preguntas_respondidas.add(created)
-                examen_respondido.resultado += puntaje_obtenido
-                examen_respondido.save()
-
-
-
-                i+=1
-            return HttpResponseRedirect('/crear-examen/')
-        else:
-            form = CrearExamenForm(request.POST)
-
-  
-    examen = Examen.objects.get(id=exam_pk)
-    preguntas = examen.preguntas.all().order_by('?')
-    for pregunta in preguntas:
-        print("PREGUNTA",pregunta)
-        for respuesta in pregunta.opciones.all():
-            print("OPCONES",respuesta)
-
-    context = {
-            'examen':examen,
-            'preguntas':preguntas,
-           
-    }
-  
-    return render(request, 'user/create_examen.html', context)
-
-
-
-
 class PlanesView(LoginRequiredMixin, generic.TemplateView):
     template_name='planes.html'
 
@@ -196,6 +128,25 @@ class PlanesView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
+class DetalleExamen(generic.DetailView):
+
+    template_name='examen/detalle_examen.html'
+       # model=Profile
+    queryset=ExamenRespondido.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(DetalleExamen, self).get_context_data(**kwargs)
+        examen = self.get_object()
+        print("SLF OBJECTS", examen.pk)
+        preguntas_respondidas = PreguntasRespondidas.objects.filter(examen=examen.pk)
+        print("SLF OBJECTS", preguntas_respondidas)
+
+        context['preguntas_respondidas']=preguntas_respondidas
+        return context
+
+    def get_queryset(self):
+         queryset = super(DetalleExamen, self).get_queryset()
+         return queryset.filter(usuario=self.request.user)
 
 
 

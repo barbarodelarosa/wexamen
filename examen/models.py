@@ -83,8 +83,10 @@ class Respuesta(models.Model):
 class PreguntasRespondidas(models.Model):
     usuario = models.ForeignKey(Profile, on_delete=models.CASCADE)
     examen = models.ForeignKey(Examen, on_delete=models.CASCADE)
+    examen_respondido = models.ForeignKey(ExamenRespondido, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
     respuesta = models.ForeignKey(Respuesta, on_delete=models.CASCADE, related_name='intentos')
+    opciones = models.ManyToManyField(Respuesta, blank=True)
     correcta = models.BooleanField(verbose_name="Es esta la respuesta correcta?", default=False, null=False)
     puntaje_obtenido = models.DecimalField(verbose_name="Puntaje obtenido", default=0, decimal_places=2, max_digits=6)
 
