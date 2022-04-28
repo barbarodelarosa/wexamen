@@ -7,26 +7,38 @@ Enlaces de referido
 <div class="container-xxl flex-grow-1 container-p-y">
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Efiliado /</span> Enlace</h4>
 <div class="card mb-4">
-<h5 class="card-header">Cuenta de afiliado</h5>
+<h5 class="card-header">Mi cuenta de afiliado</h5>
 <div class="card-body">
 <div class="row">
 
 			{% if request.user.profile.affiliated %}
-							
-                <form action="{% url 'affiliate:shortener'%}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-success">Obtener enlace de afiliado <i class="fa fa-share"></i></button>
-                </form>
-
+						
+            <span class="badge bg-label-primary me-1" id="sample"><h5>{{mi_enale}}</h5></span>
+     
+            <a  href="#" onclick="CopyToClipboard('sample');return false;" type="button" class="btn btn-primary">Copiar enlace</a>
+     
             {% endif %}
 
-            {% for link in links  %}
-                {{link.short_url}}
-            {% endfor %} 
+</div>
+</div>
+</div>
+</div>
 
-</div>
-</div>
-</div>
-</div>
+
+
+
+
+
+<script>
+    function CopyToClipboard(id)
+    {
+    var r = document.createRange();
+    r.selectNode(document.getElementById(id));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    }
+    </script>
 
 {% endblock content %}

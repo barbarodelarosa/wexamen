@@ -164,7 +164,7 @@ class PlanPago(models.Model):
 
 
 class AffiliateApplication(models.Model):
-	profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+	profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 	aprovated = models.BooleanField(default=False)

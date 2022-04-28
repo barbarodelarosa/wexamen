@@ -13,7 +13,9 @@ class AffiliateLinks(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AffiliateLinks,self).get_context_data(**kwargs)
-        context['links']=Shortener.objects.filter(user=self.request.user)
+        shortener=Shortener.objects.filter(user=self.request.user)
+        context['links']=shortener
+        context['mi_enale']=f'{self.request.get_host()}/u/{self.request.user.profile.affiliated_url}'
         return context
 
 def affiliateLinks(request):

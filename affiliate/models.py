@@ -46,3 +46,4 @@ class Shortener(models.Model):
             self.short_url = create_shortened_url(self)
 
         super().save(*args, **kwargs)
+

@@ -1,3 +1,4 @@
+from django.urls import reverse
 from decimal import Decimal
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -292,15 +293,30 @@ def affiliateApplication(request):
     if profile.phone and profile.ci:
         form = AffiliateApplicationForm(request.POST or None)
         if request.method == 'POST' and form.is_valid():
-            AffiliateApplication.objects.create(profile=profile)
-            messages.info(request, "Su solicitud de cuenta de afiliado fue enviada, debe esperar a ser aprovada")
-            return HttpResponseRedirect('/')
+            afi = AffiliateApplication.objects.get(profile=profile)
+            if afi and afi.aprovated == True:
+                profile.affiliated=True
+                profile.save()
+                messages.success(request, "Su cuenta de afiliado ha sido restablecida")
+                return HttpResponseRedirect('/')
+            elif afi and afi.aprovated == False:
+                afi.aprovated = True
+                afi.save()
+                messages.success(request, "Se ha reactivado su cuenta de afiliado")
+                return HttpResponseRedirect('/')
+            if not afi:
+                AffiliateApplication.objects.create(profile=profile, aprovated=True)
+                profile.affiliated=True
+                profile.save()
+            
+                messages.info(request, "Su cuenta de afiliado ha sido creada")
+                return HttpResponseRedirect('/')
         else:
             messages.info(request, "Error al enviar la solicitud, por favor revisar los requisitos")
             return HttpResponseRedirect('/')
     else:
         messages.error(request, "Antes de solicitar la cuenta de afilidado, debe editar su perfil y agregar su numero de telefono y CI")
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('perfil:editar-perfil', kwargs={'pk':profile.pk}))
 
 
 

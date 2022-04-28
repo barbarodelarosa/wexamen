@@ -29,6 +29,8 @@ urlpatterns = [
 
     path('u/<str:shortened_part>', redirect_url_view, name='redirect-url-short'),
 
+    path('__debug__/', include('debug_toolbar.urls')),
+
 
 ]
 if settings.DEBUG:
